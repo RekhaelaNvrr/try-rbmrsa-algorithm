@@ -1,3 +1,5 @@
+Setting up the environment
+
 Must have:
   - Python
   - Git
