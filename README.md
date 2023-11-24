@@ -45,8 +45,8 @@ Create a Python Project
 
 <br> </br>
 How to Install rsa on Windows? (IMPORTANT-- !!)
-- Type "cmd" in the search bar and hit Enter to open the command line.
-- Type “pip install rsa” (without quotes) in the command line and hit Enter again. This installs rsa for your default Python installation.
-- The previous command may not work if you have both Python versions 2 and 3 on your computer. In this case, try "pip3 install rsa" or “python -m pip install rsa“.
+- Type `cmd` in the search bar and hit Enter to open the command line.
+- Type `pip install rsa` in the command line and hit Enter again. This installs rsa for your default Python installation.
+- The previous command may not work if you have both Python versions 2 and 3 on your computer. In this case, try `pip3 install rsa` or `python -m pip install rsa`.
 - Wait for the installation to terminate successfully. It is now installed on your Windows machine.
 
