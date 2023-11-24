@@ -5,8 +5,8 @@ Must have:
   - Git
   - VS Code
   - GitHub Desktop
+    
 <br> </br>
-
 Install Python
   - Download the `Python` installer from the official Python website: `https://www.python.org/downloads/`
   - `Run` the installer and follow the on-screen instructions to complete the installation.
@@ -42,3 +42,11 @@ Create a Python Project
   - Open the Command Palette (Ctrl+Shift+P on Windows/Linux, Cmd+Shift+P on macOS) and type "Python: Create Environment".
   - Select the "Create Environment" option and choose the desired Python interpreter (Global is the most suitable one). 
   - This will create a virtual environment for your Python project, isolating it from other projects and ensuring compatibility with the installed Python version.
+
+<br> </br>
+How to Install rsa on Windows? (IMPORTANT-- !!)
+- Type "cmd" in the search bar and hit Enter to open the command line.
+- Type “pip install rsa” (without quotes) in the command line and hit Enter again. This installs rsa for your default Python installation.
+- The previous command may not work if you have both Python versions 2 and 3 on your computer. In this case, try "pip3 install rsa" or “python -m pip install rsa“.
+- Wait for the installation to terminate successfully. It is now installed on your Windows machine.
+
