@@ -40,7 +40,5 @@ Clone the project via:
 Create a Python Project
   - Open VSCode and create a new folder for your Python project.
   - Open the Command Palette (Ctrl+Shift+P on Windows/Linux, Cmd+Shift+P on macOS) and type "Python: Create Environment".
-  - Select the "Create Environment" option and choose the desired Python interpreter.
+  - Select the "Create Environment" option and choose the desired Python interpreter (Global is the most suitable one). 
   - This will create a virtual environment for your Python project, isolating it from other projects and ensuring compatibility with the installed Python version.
-  - Activate the virtual environment by running the following command in the terminal within VSCode: `python -m venv venv`
-
