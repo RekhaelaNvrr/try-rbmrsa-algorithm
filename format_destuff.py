@@ -1,7 +1,7 @@
 import base64
 import format_bitstuff
 
-encoded_messages = format_bitstuff.encoded_messages
+encoded_messages = format_bitstuff.final_encoded_messages.split("//")
 decoded_messages = []
 
 for encoded_message in encoded_messages:
