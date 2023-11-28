@@ -1,0 +1,63 @@
+# https://repl.it/@billbuchanan/getprimen
+import Crypto.Util.number
+import sys
+import math
+
+#Get bit-length from user input
+bit_input = int(input("\nEnter your bit-length: "))
+
+#Divides bit-length into 3 for the 3 prime numbers and get the whole number
+bits=math.floor(bit_input/3)
+if (len(sys.argv)>1):
+        bits=int(sys.argv[1])
+
+#Produces 3 random-bit prime number
+print ("=================================================================================================================================================================================")
+print ("No of bits in prime is ",bits)
+
+print ("\nGenerated random prime keys: ")
+p=Crypto.Util.number.getPrime(bits, randfunc=Crypto.Random.get_random_bytes)
+print ("Random n-bit Prime (p): ",p)
+q=Crypto.Util.number.getPrime(bits, randfunc=Crypto.Random.get_random_bytes)
+print ("Random n-bit Prime (q): ",q)
+r=Crypto.Util.number.getPrime(bits, randfunc=Crypto.Random.get_random_bytes)
+print ("Random n-bit Prime (r): ",r)
+print ("=================================================================================================================================================================================")
+
+#Computes the whole bit-length (N)
+N=p*q*r 
+print ("\nN = p*q*r =",N) 
+
+#Computes for the Totient of N 
+PHI=(p-1)*(q-1)*(r-1)
+print ("\nPHI = (p-1)(q-1)(r-1) = ",PHI)
+
+#Public key (e)
+e=65537
+print ("\ne =",e)
+
+#Computes for the Private/Secret Key (d)
+d=Crypto.Util.number.inverse(e,PHI)
+print ("d =",d)
+
+#Output
+print ("\nCount of decimal digits (p): ",len(str(p)))
+print ("Count of decimal digits (N): ",len(str(N)))
+
+#Get message input from user 
+plain_text = input("Write msg: ")
+print([ord(c) for c in plain_text]) #Converts string into uni code
+
+
+#Encryption of text message
+print ("\n\n=== Let's try these keys ==")
+print ("\nRSA Message: ", plain_text)
+CipherText = [pow(ord(c), e, N) for c in plain_text]
+print ("RSA Cipher (c = M^e mod N): ", CipherText)
+
+#Decryption process
+Decryption = [chr(pow(c, d, N)) for c in CipherText]
+print ("RSA Decipher (c^d mod N): ", Decryption)
+DecryptedText = (''.join(Decryption))
+print ("Decrypted Message: " + DecryptedText)
+
