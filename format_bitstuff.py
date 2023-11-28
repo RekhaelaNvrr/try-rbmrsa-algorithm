@@ -12,4 +12,4 @@ for word in text2:
     base64_message = base64_encoded.decode("ascii")
     encoded_messages.append(base64_message)
 
-print(encoded_messages)
+print(",".join(encoded_messages))
