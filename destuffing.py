@@ -1,32 +1,28 @@
 import re
 
 
-def destuffZ(text):
+def destuffZ(BinaryText):
     patterns = "10"
-    deStuff = re.sub(patterns, "1", text)
-    return deStuff
+    destuff = []
+    for text in BinaryText: 
+        destuff.append (re.sub(patterns, "1", text))
+    return destuff
 
 
-def destuffY(text):
+def destuffY(BinaryText):
     patterns = "010"
-    deStuff = re.sub(patterns, "01", text)
-    return deStuff
+    destuff = []
+    for text in BinaryText: 
+        destuff.append (re.sub(patterns, "01", text))
+    return destuff
 
 
-def destuffX(text):
+def destuffX(BinaryText):
     patterns = "1010"
-    deStuff = re.sub(patterns, "101", text)
-    return deStuff
+    destuff = []
+    for text in BinaryText: 
+        destuff.append (re.sub(patterns, "101", text))
+    return destuff
 
 
-def main():
-    text = '1000100010000001001010001001010' #example only
-    desZ = destuffZ(text)
-    desY = destuffY(desZ)
-    desX = destuffX(desY)
-    print(desZ)
-    print(desY)
-    print("Final Destuffed: ", desX)
 
-
-main()

@@ -2,9 +2,11 @@
 import Crypto.Util.number
 import sys
 import math
+from bitstuffing import bitstuffX, bitstuffY, bitstuffZ
+from destuffing import destuffZ, destuffY, destuffX
 
 #Get bit-length from user input
-bit_input = int(input("\nEnter your bit-length: "))
+bit_input = int(input("\nEnter your bit-length: ")) 
 
 #Divides bit-length into 3 for the 3 prime numbers and get the whole number
 bits=math.floor(bit_input/3)
@@ -55,9 +57,72 @@ print ("\nRSA Message: ", plain_text)
 CipherText = [pow(ord(c), e, N) for c in plain_text]
 print ("RSA Cipher (c = M^e mod N): ", CipherText)
 
+
+#Conversion of Decimal to Binary 
+def decimal_to_binary(CipherText):
+    BinaryText = []
+    for decimal_number in CipherText:
+        binary_string = ""
+        while decimal_number > 0:
+            remainder = decimal_number % 2
+            binary_string = str(remainder) + binary_string
+            decimal_number //= 2
+        BinaryText.append(binary_string)
+    return BinaryText
+
+print("\n---------------------------------------------------------------------------------------------------------------------------")
+BinaryText = decimal_to_binary(CipherText)
+print("Binary Text :", BinaryText)
+print("\n")
+
+
+#BitStuffing
+bitX = bitstuffX(BinaryText)
+bitY = bitstuffY(bitX)
+bitZ = bitstuffZ(bitY)
+
+print("====== bit stuffing ======")
+print("\nbitX :", bitX)
+print("\nbitY :", bitY)
+print("\nbitZ :", bitZ)
+
+BinaryText = bitZ
+
+#Send message  <<---- dito dapat yung wait
+print("\nsending encrypted message to the internet . . . . ")
+
+print("\n---------------------------------------------------------------------------------------------------------------------------")
+#DeStuffing
+desZ = destuffZ(BinaryText)
+desY = destuffY(desZ)
+desX = destuffX(desY)
+
+print("====== de stuffing ======")
+print("\nDestuffbitZ :", desZ)
+print("\nDestuffbitY :", desY)
+print("\nDestuffbitZ :", desX)
+
+BinaryText = desX
+
+#Convertion of Binary to Decimal
+def binary_to_decimal(BinaryText):
+    decimal = 0
+    for i, digit in enumerate(BinaryText[::-1]):
+        if digit == '1':
+            decimal += 2 ** i
+    return decimal
+
+CipherText = []
+for binary in BinaryText:
+    CipherText.append(binary_to_decimal(binary))
+
+print("Binary Decrypted CipherText:", CipherText) 
+
+
 #Decryption process
-Decryption = [chr(pow(c, d, N)) for c in CipherText]
+Decryption = [(pow(c, d, N)) for c in CipherText]
 print ("RSA Decipher (c^d mod N): ", Decryption)
-DecryptedText = (''.join(Decryption))
+DT = [chr(c) for c in Decryption]
+DecryptedText = (''.join(DT))
 print ("Decrypted Message: " + DecryptedText)
 
