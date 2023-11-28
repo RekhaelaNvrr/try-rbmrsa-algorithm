@@ -3,6 +3,7 @@ import Crypto.Util.number
 import sys
 import math
 import time
+import base64
 from bitstuffing import bitstuffX, bitstuffY, bitstuffZ
 from destuffing import destuffZ, destuffY, destuffX
 
@@ -103,6 +104,17 @@ BinaryText = bitZ
 enc_et = time.time()
 enc_elapsedTime = enc_et - enc_st
 
+#Formatting Presentation for sending
+encoded_messages = []
+for word in BinaryText:
+    base64_encoded = base64.b64encode(word.encode("ascii"))
+    base64_message = base64_encoded.decode("ascii")
+    encoded_messages.append(base64_message)
+
+final_encoded_messages = "//".join(encoded_messages)
+print("\n\x1b[36m\x1b[1mEncoded Messages: \x1b[0m", final_encoded_messages)
+
+
 #Send message to the internet
 print ("\n\x1b[3m\x1b[33mSending encrypted message to the internet . . . . ")
 time.sleep(2)
@@ -112,10 +124,19 @@ print (". . . ")
 time.sleep(1)
 print ("\x1b[0m	")
 
+#Removing Format Presentation
+encoded_messages = final_encoded_messages.split("//")
+decoded_messages = []
+for encoded_message in encoded_messages:
+    base64_decoded = base64.b64decode(encoded_message)
+    decoded_message = base64_decoded.decode("ascii")
+    decoded_messages.append(decoded_message)
+
+
 dec_st = time.time()
 print("\n---------------------------------------------------------------------------------------------------------------------------")
 #DeStuffing
-desZ = destuffZ(BinaryText)
+desZ = destuffZ(decoded_messages)
 desY = destuffY(desZ)
 desX = destuffX(desY)
 
