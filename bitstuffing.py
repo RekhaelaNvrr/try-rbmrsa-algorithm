@@ -1,32 +1,24 @@
 import re
 
 
-def bitstuffX(text):
+def bitstuffX(BinaryText):
     pattern = "101"
-    result = re.sub(pattern, pattern + "0", text)
+    result = []
+    for text in BinaryText:
+        result.append(re.sub(pattern, pattern + "0", text))
     return result
 
 
-def bitstuffY(text):
+def bitstuffY(BinaryText):
     pattern = "01"
-    result = re.sub(pattern, pattern + "0", text)
+    result = []
+    for text in BinaryText:
+        result.append(re.sub(pattern, pattern + "0", text))
     return result
 
-
-def bitstuffZ(text):
+def bitstuffZ(BinaryText):
     pattern = "1"
-    result = re.sub(pattern, pattern + "0", text)
+    result = []
+    for text in BinaryText:
+        result.append(re.sub(pattern, pattern + "0", text))
     return result
-
-
-def main():
-    text = '100101000011100111' #example only
-    bitX = bitstuffX(text)
-    bitY = bitstuffY(bitX)
-    bitZ = bitstuffZ(bitY)
-    print(bitX)
-    print(bitY)
-    print("Final Bit-stuffed: ", bitZ)
-
-
-main()
