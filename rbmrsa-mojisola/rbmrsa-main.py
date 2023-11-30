@@ -6,6 +6,18 @@ import time
 import base64
 from bitstuffing import bitstuffX, bitstuffY, bitstuffZ
 from destuffing import destuffZ, destuffY, destuffX
+from format_bitstuff import format_bitstuffing
+from format_destuff import format_destuff
+from generating_keys import generating_keys, computation_keys, compute_bit
+from binary_conversion import decimal_to_binary, binary_to_decimal
+
+def wait_print():
+    time.sleep(2)
+    print (".  .  .  .  .  .  .  .  .  .  .  .  . ")
+    time.sleep(1)
+    print (".  . ")
+    time.sleep(1)
+    print ("\n\x1b[0m")
 
 #Get bit-length from user input
 bit_input = int(input("\n\x1b[32m\x1b[1mEnter your bit-length:\x1b[30m ")) 
@@ -13,49 +25,35 @@ print ("\n\x1b[0m")
 
 time.sleep(1)
 print ("\x1b[3m\x1b[33mGenerating and computing for keys . . . . . .")
-time.sleep(2)
-print (".  .  .  . .  .  .  .  .  .  .  .  . ")
-time.sleep(1)
-print (". . . ")
-time.sleep(1)
-print ("\n\x1b[0m")
+wait_print()
 
 #Divides bit-length into 3 for the 3 prime numbers and get the whole number
-bits=math.floor(bit_input/3)
-if (len(sys.argv)>1):
-        bits=int(sys.argv[1])
+bits = compute_bit (bit_input)
 
 #Produces 3 random-bit prime number
-print ("=================================================================================================================================================")
+print ("=============================================================================================================================================")
 print ("No of bits in prime is ",bits)
 
+p, q, r, = generating_keys(bits)
 print ("\n\x1b[36m\x1b[1mGenerated Random Prime keys: \x1b[0m")
-p=Crypto.Util.number.getPrime(bits, randfunc=Crypto.Random.get_random_bytes)
 print ("Random n-bit Prime (p): ",p)
-q=Crypto.Util.number.getPrime(bits, randfunc=Crypto.Random.get_random_bytes)
 print ("Random n-bit Prime (q): ",q)
-r=Crypto.Util.number.getPrime(bits, randfunc=Crypto.Random.get_random_bytes)
 print ("Random n-bit Prime (r): ",r)
-print ("=================================================================================================================================================")
+print ("=============================================================================================================================================")
+
+N, PHI, e, d = computation_keys (p, q, r)
 
 #Computes the whole bit-length (N)
-N=p*q*r 
 print ("\n\x1b[36m\x1b[1mN = p*q*r =\x1b[0m",N) 
 
 #Computes for the Totient of N 
-PHI=(p-1)*(q-1)*(r-1)
 print ("\n\x1b[36m\x1b[1mPHI = (p-1)(q-1)(r-1) =\x1b[0m",PHI)
 
 #Public key (e)
-e=65537
 print ("\n\x1b[36m\x1b[1me =\x1b[0m",e)
 
 #Computes for the Private/Secret Key (d)
-d=Crypto.Util.number.inverse(e,PHI)
 print ("\x1b[36m\x1b[1md =\x1b[0m",d)
-
-#print ("\nCount of decimal digits (p): ",len(str(p))) 
-#print ("Count of decimal digits (N): ",len(str(N)))
 
 #Get message input from user 
 print ("\n")
@@ -72,22 +70,10 @@ CipherText = [pow(ord(c), e, N) for c in plain_text]
 print ("\x1b[1m\x1b[31mRSA Cipher (c = M^e mod N): \x1b[0m", CipherText)
 
 #Conversion of Decimal to Binary 
-def decimal_to_binary(CipherText):
-    BinaryText = []
-    for decimal_number in CipherText:
-        binary_string = ""
-        while decimal_number > 0:
-            remainder = decimal_number % 2
-            binary_string = str(remainder) + binary_string
-            decimal_number //= 2
-        BinaryText.append(binary_string)
-    return BinaryText
-
 print("\n---------------------------------------------------------------------------------------------------------------------------")
 BinaryText = decimal_to_binary(CipherText)
 print("\x1b[36m\x1b[1mBinary Text:\x1b[0m", BinaryText)
 print("\n")
-
 
 #BitStuffing
 bitX = bitstuffX(BinaryText)
@@ -101,42 +87,29 @@ print("\n\x1b[36m\x1b[1mbit Z:\x1b[0m", bitZ)
 
 BinaryText = bitZ
 
+#Elapsed time for Encryption
 enc_et = time.time()
 enc_elapsedTime = enc_et - enc_st
 
 #Formatting Presentation for sending
-encoded_messages = []
-for word in BinaryText:
-    base64_encoded = base64.b64encode(word.encode("ascii"))
-    base64_message = base64_encoded.decode("ascii")
-    encoded_messages.append(base64_message)
-
-final_encoded_messages = "//".join(encoded_messages)
+final_encoded_messages = format_bitstuffing (BinaryText)
 print("\n\x1b[36m\x1b[1mEncoded Messages: \x1b[0m", final_encoded_messages)
 
+# --- end of encryption process 
 
 #Send message to the internet
 print ("\n\x1b[3m\x1b[33mSending encrypted message to the internet . . . . ")
-time.sleep(2)
-print (".  .  .  . .  .  .  .  .  . ")
-time.sleep(1)
-print (". . . ")
-time.sleep(1)
-print ("\x1b[0m	")
+wait_print()
+
+# --- start of decryption process 
 
 #Removing Format Presentation
-encoded_messages = final_encoded_messages.split("//")
-decoded_messages = []
-for encoded_message in encoded_messages:
-    base64_decoded = base64.b64decode(encoded_message)
-    decoded_message = base64_decoded.decode("ascii")
-    decoded_messages.append(decoded_message)
-
+decoded_message = format_destuff(final_encoded_messages)
 
 dec_st = time.time()
-print("\n---------------------------------------------------------------------------------------------------------------------------")
+print("---------------------------------------------------------------------------------------------------------------------------")
 #DeStuffing
-desZ = destuffZ(decoded_messages)
+desZ = destuffZ(decoded_message)
 desY = destuffY(desZ)
 desX = destuffX(desY)
 
@@ -148,13 +121,6 @@ print("\n\x1b[36m\x1b[1mDestuff bit X :\x1b[0m", desX)
 BinaryText = desX
 
 #Convertion of Binary to Decimal
-def binary_to_decimal(BinaryText):
-    decimal = 0
-    for i, digit in enumerate(BinaryText[::-1]):
-        if digit == '1':
-            decimal += 2 ** i
-    return decimal
-
 CipherText = []
 for binary in BinaryText:
     CipherText.append(binary_to_decimal(binary))
@@ -171,12 +137,7 @@ dec_et = time.time()
 dec_elapsedTime = dec_et - dec_st
 
 print ("\n\x1b[3m\x1b[33mPrinting Results . . . . ")
-time.sleep(2)
-print (".  .  .  . .  .  .  .  .  .  .  .  . ")
-time.sleep(1)
-print (". . . ")
-time.sleep(1)
-print ("\x1b[0m	")
+wait_print()
 
 #Output
 print ("\x1b[32m\x1b[1mResult: ==============================================================\x1b[0m")
