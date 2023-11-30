@@ -216,6 +216,8 @@ print("\n\n")
 print(
     "\x1b[32m\x1b[1mResult: ==============================================================\x1b[0m"
 )
+print("\nKey Length: ", bit_input)
+print("Version: TRY's Version")
 print("\nEncryption Elapsed Time:", (enc_elapsedTime * 1000), "milliseconds")
 print("Decryption Elapsed Time:", (dec_elapsedTime * 1000), "milliseconds")
 print("\x1b[32m\n\nDecrypted Message:\x1b[1m " + DecryptedText, "\x1b[0m")
