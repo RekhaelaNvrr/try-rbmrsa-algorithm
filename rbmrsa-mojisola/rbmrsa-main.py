@@ -1,9 +1,5 @@
 #https://repl.it/@billbuchanan/getprimen
-import Crypto.Util.number
-import sys
-import math
 import time
-import base64
 from bitstuffing import bitstuffX, bitstuffY, bitstuffZ
 from destuffing import destuffZ, destuffY, destuffX
 from format_bitstuff import format_bitstuffing
