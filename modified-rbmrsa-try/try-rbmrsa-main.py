@@ -1,7 +1,6 @@
 # based on: https://repl.it/@billbuchanan/getprimen
 # based on: https://repl.it/@billbuchanan/getprimen
 import time
-import math
 from try_bitstuffing import bitstuffX, bitstuffY, bitstuffZ
 from try_destuffing import destuffZ, destuffY, destuffX
 from try_format_bitstuff import format_bitstuffing
@@ -13,9 +12,7 @@ from try_binary_conversion import decimal_to_binary, binary_to_decimal
 def wait_print():
     time.sleep(2)
     print(".  .  .  .  .  .  .  .  .  .  .  .  . ")
-    print(".  .  .  .  .  .  .  .  .  .  .  .  . ")
     time.sleep(1)
-    print(".  . ")
     print(".  . ")
     time.sleep(1)
     print("\n\x1b[0m")
