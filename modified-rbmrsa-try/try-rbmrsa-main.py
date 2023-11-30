@@ -1,11 +1,11 @@
 #based on: https://repl.it/@billbuchanan/getprimen
 import time
-from bitstuffing import bitstuffX, bitstuffY, bitstuffZ
-from destuffing import destuffZ, destuffY, destuffX
-from format_bitstuff import format_bitstuffing
-from format_destuff import format_destuff
-from generating_keys import generating_keys, computation_keys, compute_bit
-from binary_conversion import decimal_to_binary, binary_to_decimal
+from try_bitstuffing import bitstuffX, bitstuffY, bitstuffZ
+from try_destuffing import destuffZ, destuffY, destuffX
+from try_format_bitstuff import format_bitstuffing
+from try_format_destuff import format_destuff
+from try_generating_keys import generating_keys, computation_keys, compute_bit
+from try_binary_conversion import decimal_to_binary, binary_to_decimal
 
 def wait_print():
     time.sleep(2)
