@@ -1,6 +1,7 @@
 # Source: extendedeuclideanalgorithm.com
 import math 
 import sys
+import time
 from try_generating_keys import gen_e
 
 #Warning: can't handle b=0. See extendedeuclideanalgorithm.com/code for a version that can
@@ -195,7 +196,7 @@ def gcd_checker (e, PHI):
 def generating_d (x, y, e, PHI):
     a = e
     b = PHI
-
+       
     eea_d = (PHI * x) + (e * y)
 
     if eea_d == gcd(a, b):
@@ -204,8 +205,9 @@ def generating_d (x, y, e, PHI):
             d = d % PHI
         elif d < 0:
             d = d + PHI
+
         return d
-    else: 
+    else:   
         print ("error")
 
 #Use main() as main function when you run this script -- for checking only

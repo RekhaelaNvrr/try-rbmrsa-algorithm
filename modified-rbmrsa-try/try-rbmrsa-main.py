@@ -7,6 +7,8 @@ from try_format_bitstuff import format_bitstuffing
 from try_format_destuff import format_destuff
 from try_generating_keys import generating_keys, computation_keys, compute_bit
 from try_binary_conversion import decimal_to_binary, binary_to_decimal
+from try_eea_mod import gcd_checker, generating_d
+from try_decryption_crt import crt_equations, modInv_Computation, four_parts
 
 
 def wait_print():
@@ -26,6 +28,7 @@ time.sleep(1)
 print("\x1b[3m\x1b[33mGenerating and computing for keys . . . . . .")
 wait_print()
 
+gen_time_st = time.time()
 
 # Divides bit-length into 4 for the 4 prime numbers and get the whole number
 bits = compute_bit(bit_input)
@@ -46,7 +49,7 @@ print(
     "============================================================================================================================================="
 )
 
-N, PHI, e, d = computation_keys(p, q, r, s)
+N, PHI, e = computation_keys(p, q, r, s)
 
 # Computes the whole bit-length (N)
 print("\n\x1b[36m\x1b[1mN = p*q*r*s =\x1b[0m", N)
@@ -57,6 +60,11 @@ print("\n\x1b[36m\x1b[1mPHI = (p-1)(q-1)(r-1)(s-1) =\x1b[0m", PHI)
 # Public key (e)
 print("\n\x1b[36m\x1b[1me =\x1b[0m", e)
 
+y, x = gcd_checker(e, PHI)
+d = generating_d (x, y, e, PHI)
+
+gen_time_end = time.time()
+gen_time = gen_time_end - gen_time_st
 # Computes for the Private/Secret Key (d)
 print("\x1b[36m\x1b[1md =\x1b[0m", d)
 
@@ -140,7 +148,9 @@ print("\x1b[36m\x1b[1m\nBinary Decrypted CipherText:\x1b[0m", CipherText)
 
 
 # Decryption process
-Decryption = [(pow(c, d, N)) for c in CipherText]
+pInv, qInv, rInv, sInv = modInv_Computation(N, p, q, r, s)
+dp, dq, dr, ds = crt_equations(p, q , r, s, N, d)
+Decryption = four_parts (CipherText, p, q, r, s, N, pInv, qInv, rInv, sInv, dp, dq, dr, ds)
 print("\x1b[36m\x1b[1m\nRSA Decipher (c^d mod N):\x1b[0m", Decryption)
 DT = [chr(c) for c in Decryption]
 DecryptedText = "".join(DT)
@@ -156,7 +166,8 @@ print(
 )
 print("\nKey Length: ", bit_input)
 print("Version: TRY's Version")
-print("\nEncryption Elapsed Time:", (enc_elapsedTime * 1000), "milliseconds")
+print("\nGenerating Key Elapsed Time:", (gen_time * 1000), "milliseconds")
+print("Encryption Elapsed Time:", (enc_elapsedTime * 1000), "milliseconds")
 print("Decryption Elapsed Time:", (dec_elapsedTime * 1000), "milliseconds")
 print("\x1b[32m\n\nDecrypted Message:\x1b[1m " + DecryptedText, "\x1b[0m")
 print("\n\n")

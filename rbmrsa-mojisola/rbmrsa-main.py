@@ -25,6 +25,8 @@ time.sleep(1)
 print("\x1b[3m\x1b[33mGenerating and computing for keys . . . . . .")
 wait_print()
 
+gen_time_st = time.time()
+
 # Divides bit-length into 3 for the 3 prime numbers and get the whole number
 bits = compute_bit(bit_input)
 
@@ -60,6 +62,9 @@ print("\n\x1b[36m\x1b[1me =\x1b[0m", e)
 
 # Computes for the Private/Secret Key (d)
 print("\x1b[36m\x1b[1md =\x1b[0m", d)
+
+gen_time_end = time.time()
+gen_time = gen_time_end - gen_time_st
 
 # Get message input from user
 print("\n")
@@ -155,7 +160,10 @@ print(
 )
 print("\nKey Length: ", bit_input)
 print("Version: Mojisola et al.'s Version")
-print("\nEncryption Elapsed Time:", (enc_elapsedTime * 1000), "milliseconds")
+
+print("\nGenerating Key Elapsed Time:", (gen_time * 1000), "milliseconds")
+print("Encryption Elapsed Time:", (enc_elapsedTime * 1000), "milliseconds")
 print("Decryption Elapsed Time:", (dec_elapsedTime * 1000), "milliseconds")
+
 print("\x1b[32m\n\nDecrypted Message:\x1b[1m " + DecryptedText, "\x1b[0m")
 print("\n\n")
