@@ -1,12 +1,14 @@
 # based on: https://repl.it/@billbuchanan/getprimen
-# based on: https://repl.it/@billbuchanan/getprimen
 import time
+import math
 from try_bitstuffing import bitstuffX, bitstuffY, bitstuffZ
 from try_destuffing import destuffZ, destuffY, destuffX
 from try_format_bitstuff import format_bitstuffing
 from try_format_destuff import format_destuff
 from try_generating_keys import generating_keys, computation_keys, compute_bit
 from try_binary_conversion import decimal_to_binary, binary_to_decimal
+from try_eea_mod import gcd_checker, generating_d
+from try_decryption_crt import crt_equations, modInv_Computation, four_parts
 
 
 def wait_print():
@@ -25,7 +27,6 @@ print("\n\x1b[0m")
 time.sleep(1)
 print("\x1b[3m\x1b[33mGenerating and computing for keys . . . . . .")
 wait_print()
-
 
 # Divides bit-length into 4 for the 4 prime numbers and get the whole number
 bits = compute_bit(bit_input)
@@ -46,16 +47,19 @@ print(
     "============================================================================================================================================="
 )
 
-N, PHI, e, d = computation_keys(p, q, r, s)
+N, PHI, e = computation_keys(p, q, r, s)
 
 # Computes the whole bit-length (N)
 print("\n\x1b[36m\x1b[1mN = p*q*r*s =\x1b[0m", N)
 
-# Computes for the Totient of N
+# Computes for the ϕ(n)
 print("\n\x1b[36m\x1b[1mPHI = (p-1)(q-1)(r-1)(s-1) =\x1b[0m", PHI)
 
 # Public key (e)
 print("\n\x1b[36m\x1b[1me =\x1b[0m", e)
+
+y, x = gcd_checker(e, PHI)
+d, priv_gen_elapsedTime = generating_d(x, y, e, PHI)
 
 # Computes for the Private/Secret Key (d)
 print("\x1b[36m\x1b[1md =\x1b[0m", d)
@@ -63,7 +67,6 @@ print("\x1b[36m\x1b[1md =\x1b[0m", d)
 # Get message input from user
 print("\n")
 plain_text = input("\x1b[32m \x1b[1m Write msg:\x1b[30m ")
-
 # print([ord(c) for c in plain_text]) #Converts string into uni code
 print("\n\x1b[0m")
 
@@ -115,7 +118,6 @@ wait_print()
 decoded_message = format_destuff(final_encoded_messages)
 
 dec_st = time.time()
-# DeStuffing
 print(
     "---------------------------------------------------------------------------------------------------------------------------"
 )
@@ -140,7 +142,11 @@ print("\x1b[36m\x1b[1m\nBinary Decrypted CipherText:\x1b[0m", CipherText)
 
 
 # Decryption process
-Decryption = [(pow(c, d, N)) for c in CipherText]
+pInv, qInv, rInv, sInv = modInv_Computation(N, p, q, r, s)
+dp, dq, dr, ds = crt_equations(p, q, r, s, N, d)
+Decryption = four_parts(
+    CipherText, p, q, r, s, N, pInv, qInv, rInv, sInv, dp, dq, dr, ds
+)
 print("\x1b[36m\x1b[1m\nRSA Decipher (c^d mod N):\x1b[0m", Decryption)
 DT = [chr(c) for c in Decryption]
 DecryptedText = "".join(DT)
@@ -156,7 +162,8 @@ print(
 )
 print("\nKey Length: ", bit_input)
 print("Version: TRY's Version")
-print("\nEncryption Elapsed Time:", (enc_elapsedTime * 1000), "milliseconds")
+print("Private Key Generation Time:", priv_gen_elapsedTime)
+print("Encryption Elapsed Time:", (enc_elapsedTime * 1000), "milliseconds")
 print("Decryption Elapsed Time:", (dec_elapsedTime * 1000), "milliseconds")
 print("\x1b[32m\n\nDecrypted Message:\x1b[1m " + DecryptedText, "\x1b[0m")
 print("\n\n")
