@@ -41,6 +41,7 @@ print("No of bits in prime is ", bits)
     q,
     r,
 ) = generating_keys(bits)
+
 print("\n\x1b[36m\x1b[1mGenerated Random Prime keys: \x1b[0m")
 print("Random n-bit Prime (p): ", p)
 print("Random n-bit Prime (q): ", q)
