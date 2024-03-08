@@ -4,7 +4,7 @@ import base64
 
 
 def format_destuff(final_encoded_messages):
-    encoded_messages = final_encoded_messages.split("//")
+    encoded_messages = final_encoded_messages.split("MTDz")
     decoded_messages = []
     for encoded_message in encoded_messages:
         base64_decoded = base64.b64decode(encoded_message)
