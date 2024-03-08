@@ -7,7 +7,7 @@ def format_bitstuffing(BinaryText):
         base64_message = base64_encoded.decode("ascii")
         encoded_messages.append(base64_message)
 
-    return "//". join(encoded_messages)
+    return "MTDz". join(encoded_messages)
 
 
 
