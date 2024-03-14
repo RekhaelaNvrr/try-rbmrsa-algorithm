@@ -56,3 +56,9 @@ Install Crypto (always remember this, wag maging katulad ni Rekha)
 - Type "pip install pycryptodome"
 - Wait for it to download.
 - Run rbmrsa-reptil.
+
+Install Streamlit: pip install streamlit
+
+Install Option Menu: pip install streamlit-option-menu
+
+Run Streamlit file: streamlit run streamlit-webapp.py
