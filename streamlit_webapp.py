@@ -2,10 +2,10 @@ import streamlit as st
 from streamlit_option_menu import option_menu
 import pandas as pd
 import sys
+import try_compiled_main
 
-sys.path.insert(0, "/try-rbmrsa-algorithm\modified-rbmrsa-try")
-sys.path.insert(1, "/try-rbmrsa-algorithm\rbmrsa-mojisola")
-
+# sys.path.insert(0, "/try-rbmrsa-algorithm\modified-rbmrsa-try")
+# sys.path.insert(1, "/try-rbmrsa-algorithm\rbmrsa-mojisola")
 
 st.set_page_config(page_title="TRY-RBMRSA", page_icon=":bird:", layout="wide")
 
@@ -17,7 +17,7 @@ selected = option_menu(
         "Test Data Results",
         "About",
     ],
-    default_index=3,
+    default_index=0,
     icons=[":large_green_circle:", ":page_facing_up:", ":bar_chart:", ":bird:"],
     orientation="horizontal",
     styles={
@@ -48,16 +48,16 @@ if selected == "RBMRSA vs Modified RBMRSA":
         unsafe_allow_html=True,
     )
     submit_button = form.form_submit_button(label="Submit")
-    print(message)
+    try_compiled_main.try_2048(message)
 
     st.divider()
 
-    rbmrsa, mrbmrsa = st.columns(2, gap="large")
+    rbmrsa, mrbmrsa, mrbmrsa_2048 = st.columns(3, gap="large")
 
     with rbmrsa:
-        st.header(":red_circle: RBMRSA")
+        st.subheader(":red_circle: RBMRSA")
 
-        st.subheader("Encrypted Message")
+        st.write("Encrypted Message")
         st.text_area(
             "Encrypted Message of RBMRSA",
             height=100,
@@ -65,7 +65,7 @@ if selected == "RBMRSA vs Modified RBMRSA":
             label_visibility="collapsed",
         )
 
-        st.subheader("Decrypted Message")
+        st.write("Decrypted Message")
         st.text_area(
             "Decrypted Message of RBMRSA",
             height=100,
@@ -74,9 +74,9 @@ if selected == "RBMRSA vs Modified RBMRSA":
         )
 
     with mrbmrsa:
-        st.header(":large_blue_circle: Modified RBMRSA")
+        st.subheader(":large_blue_circle: Modified RBMRSA (1024-bit)")
 
-        st.subheader("Encrypted Message")
+        st.write("Encrypted Message")
         st.text_area(
             "Encrypted Message of Modified RBMRSA",
             height=100,
@@ -84,7 +84,7 @@ if selected == "RBMRSA vs Modified RBMRSA":
             label_visibility="collapsed",
         )
 
-        st.subheader("Decrypted Message")
+        st.write("Decrypted Message")
         st.text_area(
             "Decrypted Message of Modified RBMRSA",
             height=100,
@@ -92,11 +92,31 @@ if selected == "RBMRSA vs Modified RBMRSA":
             label_visibility="collapsed",
         )
 
+    with mrbmrsa_2048:
+        st.subheader(":large_purple_circle: Modified RBMRSA (2048-bit)")
+
+        st.write("Encrypted Message")
+        st.text_area(
+            "Encrypted Message of Modified RBMRSA (2048)",
+            height=100,
+            disabled=True,
+            label_visibility="collapsed",
+        )
+
+        st.write("Decrypted Message")
+        st.text_area(
+            "Decrypted Message of Modified RBMRSA (2048)",
+            height=100,
+            disabled=True,
+            label_visibility="collapsed",
+        )
+
 if selected == "Simulation Details":
-    col1, col2 = st.columns(2, gap="large")
+    col1, col2, col3 = st.columns(3, gap="large")
 
     with col1:
-        st.header(":red_circle: RBMRSA Simulation")
+        st.subheader(":red_circle: RBMRSA Simulation")
+        st.caption("1024-bit key length")
         # simulated variables only
         exec_time = "0.0001"
         encrypt_time = "0.001"
@@ -105,6 +125,7 @@ if selected == "Simulation Details":
         st.divider()
 
         st.write("Encryption Time of RBMRSA")
+
         st.text_input(
             "Encryption Time of RBMRSA",
             value=exec_time,
@@ -123,6 +144,7 @@ if selected == "Simulation Details":
         st.divider()
 
         with st.expander("3 Prime Numbers"):
+
             st.text_area(
                 "Prime number p of RBMRSA",
                 height=100,
@@ -177,7 +199,8 @@ if selected == "Simulation Details":
             )
 
     with col2:
-        st.header(":large_blue_circle: Modified RBMRSA Simulation")
+        st.subheader(":large_blue_circle: Modified RBMRSA Simulation")
+        st.caption("1024-bit key length")
         # simulated variables only
         exec_time = "0.0001"
         encrypt_time = "0.001"
@@ -260,6 +283,96 @@ if selected == "Simulation Details":
 
             st.text_area(
                 "Private key d of Modified RBMRSA",
+                height=100,
+                disabled=True,
+                value=exec_time,
+            )
+
+    with col3:
+        st.subheader(":large_purple_circle: Modified RBMRSA Simulation")
+        st.caption("2048-bit key length")
+        # simulated variables only
+        exec_time = "0.0001"
+        encrypt_time = "0.001"
+        decrypt_time = "0.01"
+
+        st.divider()
+
+        st.write("Encryption Time of Modified RBMRSA")
+        st.text_input(
+            "Encryption Time of Modified RBMRSA (2048-bit)",
+            value=(try_compiled_main.enc_elapsedTime * 1000) + "ms",
+            disabled=True,
+            label_visibility="collapsed",
+        )
+
+        st.write("Decryption Time of Modified RBMRSA")
+        st.text_input(
+            "Decryption Time of Modified RBMRSA (2048-bit)",
+            value=(try_compiled_main.dec_elapsedTime * 1000) + "ms",
+            disabled=True,
+            label_visibility="collapsed",
+        )
+
+        st.divider()
+
+        with st.expander("4 Prime Numbers"):
+            st.text_area(
+                "Prime number p of Modified RBMRSA (2048-bit)",
+                height=100,
+                disabled=True,
+                value=exec_time,
+            )
+
+            st.text_area(
+                "Prime number q of Modified RBMRSA (2048-bit)",
+                height=100,
+                disabled=True,
+                value=exec_time,
+            )
+
+            st.text_area(
+                "Prime number r of Modified RBMRSA (2048-bit)",
+                height=100,
+                disabled=True,
+                value=exec_time,
+            )
+
+            st.text_area(
+                "Prime number s of Modified RBMRSA (2048-bit)",
+                height=100,
+                disabled=True,
+                value=exec_time,
+            )
+
+        with st.expander("N of Modified RBMRSA"):
+            st.text_area(
+                "N of Modified RBMRSA (2048-bit)",
+                height=100,
+                disabled=True,
+                label_visibility="collapsed",
+                value=exec_time,
+            )
+
+        with st.expander("PHI of Modified RBMRSA"):
+            st.text_area(
+                "PHI of Modified RBMRSA (2048-bit)",
+                height=100,
+                disabled=True,
+                label_visibility="collapsed",
+                value=exec_time,
+            )
+
+        with st.expander("Keys of Modified RBMRSA"):
+            st.text_area(
+                "Public key e of Modified RBMRSA (2048-bit)",
+                height=100,
+                disabled=True,
+                value=exec_time,
+            )
+
+            st.text_area(
+                "Private key d of Modified RBMRSA (2048-bit)",
                 height=100,
                 disabled=True,
                 value=exec_time,
@@ -445,6 +558,15 @@ if selected == "About":
 
         st.image("./images/Yuanah_Cruz.jpg", width=400)
 
+        hide_img_fs = """
+            <style>
+            button[title="View fullscreen"]{
+                visibility: hidden;}
+            </style>
+            """
+
+        st.markdown(hide_img_fs, unsafe_allow_html=True)
+
     with wana1:
         st.header("")
         st.header("Yuanah Marie Cruz")
@@ -474,6 +596,15 @@ if selected == "About":
 
         st.image("./images/Rekha_Navarro.jpg", width=400)
 
+        hide_img_fs = """
+            <style>
+            button[title="View fullscreen"]{
+                visibility: hidden;}
+            </style>
+            """
+
+        st.markdown(hide_img_fs, unsafe_allow_html=True)
+
     with reka1:
         st.header("")
         st.header("Rekhaela Vlain Navarro")
@@ -502,6 +633,15 @@ if selected == "About":
         )
 
         st.image("./images/Althea_Salazar.jpg", width=400)
+
+        hide_img_fs = """
+            <style>
+            button[title="View fullscreen"]{
+                visibility: hidden;}
+            </style>
+            """
+
+        st.markdown(hide_img_fs, unsafe_allow_html=True)
 
     with teya1:
         st.header("")

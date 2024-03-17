@@ -1,0 +1,4 @@
+streamlit_option_menu == 0.3.12
+streamlit-pandas == 0.0.9
+pandas === 1.5.3
+pycryptodome == 3.19.0
