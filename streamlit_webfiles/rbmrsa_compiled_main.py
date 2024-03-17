@@ -125,22 +125,19 @@ def destuffX(BinaryText):
         destuff.append(re.sub(patterns, "101", text))
     return destuff
 
-
-def main(message):
-    bits = 1024
-    bit_input = bits
-    p, q, r = generating_keys(bits)
+def generation_process(bit):
+    p, q, r = generating_keys(bit)
     N, PHI, e, d = computation_keys(p, q, r)
+    return p, q, r, N, PHI, e, d 
+    
 
-    # input = "Hello World"
+def encryption(message, e, N):
     input = message
     plain_text = input
     enc_st = time.time()
-
     CipherText = [pow(ord(c), e, N) for c in plain_text]
-
     BinaryText = decimal_to_binary(CipherText)
-
+    
     # BitStuffing
     bitX = bitstuffX(BinaryText)
     bitY = bitstuffY(bitX)
@@ -152,10 +149,12 @@ def main(message):
     enc_elapsedTime = enc_et - enc_st
 
     final_encoded_messages = format_bitstuffing(BinaryText)
+    
+    return final_encoded_messages
 
+def decryption(final_encoded_messages, d, N):
     decoded_message = format_destuff(final_encoded_messages)
     dec_st = time.time()
-
     # DeStuffing
     desZ = destuffZ(decoded_message)
     desY = destuffY(desZ)
@@ -173,10 +172,20 @@ def main(message):
     DecryptedText = "".join(DT)
     dec_et = time.time()
     dec_elapsedTime = dec_et - dec_st
+    
+    return DecryptedText
+    
+
+def main(message):
+    bit = 1024
+    # input = "Hello World"
+    p, q, r, N, PHI, e, d = generation_process (bit)
+    final_encoded_messages = encryption (message, e, N)
+    DecryptedText = decryption (final_encoded_messages, d, N)
 
     # printing
 
-    print("\nKey Length: ", bit_input)
+    print("\nKey Length: ", bit)
     print("Version: Mojisola et al.'s Version")
     print("Input: ", input)
     print("Encryption Elapsed Time:", (enc_elapsedTime * 1000), "milliseconds")
@@ -194,6 +203,4 @@ def main(message):
         d,
         final_encoded_messages,
         DecryptedText,
-        enc_elapsedTime,
-        dec_elapsedTime,
     )

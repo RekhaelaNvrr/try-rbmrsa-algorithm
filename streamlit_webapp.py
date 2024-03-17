@@ -2,6 +2,7 @@ import streamlit as st
 
 from streamlit_option_menu import option_menu
 import pandas as pd
+import time 
 
 from streamlit_webfiles.rbmrsa_compiled_main import main as rbmrsa1024
 from streamlit_webfiles.try_compiled_1024 import main as try1024
@@ -12,6 +13,8 @@ import streamlit_webfiles.try_compiled_1024
 import streamlit_webfiles.try_compiled_2048
 
 st.set_page_config(page_title="TRY-RBMRSA", page_icon=":bird:", layout="wide")
+
+
 
 selected = option_menu(
     menu_title=None,
@@ -38,38 +41,81 @@ if selected == "RBMRSA vs Modified RBMRSA":
             height=150,
             label_visibility="collapsed",
         )
-
+        enc_elapsedTime1 = 0.0
+        dec_elapsedTime1 = 0.0
         def pass_message():
+            bit1 = 1024
+            p1, q1, r1, N1, PHI1, e1, d1 = streamlit_webfiles.rbmrsa_compiled_main.generation_process (bit1)
+            #RBMRSA - Encryption
+            enc_st1 = time.time()
+            final_encoded_messages1 = streamlit_webfiles.rbmrsa_compiled_main.encryption(message, e1, N1)
+            enc_et1 = time.time()
+            enc_elapsedTime1 = enc_et1 - enc_st1
+            #RBMRSA - Decryption
+            dec_st1 = time.time()
+            DecryptedText1 = streamlit_webfiles.rbmrsa_compiled_main.decryption(final_encoded_messages1, d1, N1)
+            dec_et1 = time.time()
+            dec_elapsedTime1 = dec_et1 - dec_st1
+            
+            
             streamlit_webfiles.try_compiled_2048.main(message)
             streamlit_webfiles.try_compiled_1024.main(message)
-            streamlit_webfiles.rbmrsa_compiled_main.main(message)
-
+            #streamlit_webfiles.rbmrsa_compiled_main.main(message)
+            
+ 
         submit_button = st.form_submit_button(
             label="Submit",
             on_click=pass_message,
         )
+        
 
     st.divider()
 
     rbmrsa, mrbmrsa, mrbmrsa_2048 = st.columns(3, gap="large")
 
     with rbmrsa:
+        bit1 = 1024
         st.subheader(":red_circle: RBMRSA Simulation")
         st.caption("1024-bit key length")
-        (
-            p1,
-            q1,
-            r1,
-            N1,
-            PHI1,
-            e1,
-            d1,
-            final_encoded_messages1,
-            DecryptedText1,
-            enc_elapsedTime1,
-            dec_elapsedTime1,
-        ) = rbmrsa1024(message)
+        def pass_message():
+            bit1 = 1024
+            p1, q1, r1, N1, PHI1, e1, d1 = streamlit_webfiles.rbmrsa_compiled_main.generation_process (bit1)
+            #RBMRSA - Encryption
+            enc_st1 = time.time()
+            final_encoded_messages1 = streamlit_webfiles.rbmrsa_compiled_main.encryption(message, e1, N1)
+            enc_et1 = time.time()
+            enc_elapsedTime1 = enc_et1 - enc_st1
+            #RBMRSA - Decryption
+            dec_st1 = time.time()
+            DecryptedText1 = streamlit_webfiles.rbmrsa_compiled_main.decryption(final_encoded_messages1, d1, N1)
+            dec_et1 = time.time()
+            dec_elapsedTime1 = dec_et1 - dec_st1
+            
+            return p1, q1, r1, N1, PHI1, e1, d1, final_encoded_messages1, DecryptedText1, enc_elapsedTime1, dec_elapsedTime1
 
+            
+            streamlit_webfiles.try_compiled_2048.main(message)
+            streamlit_webfiles.try_compiled_1024.main(message)
+            #streamlit_webfiles.rbmrsa_compiled_main.main(message)
+        (
+            p1, 
+            q1, 
+            r1, 
+            N1, 
+            PHI1, 
+            e1, 
+            d1
+        ) = streamlit_webfiles.rbmrsa_compiled_main.generation_process (bit1)
+        
+        (
+            final_encoded_messages1
+        ) = streamlit_webfiles.rbmrsa_compiled_main.encryption(message, e1, N1)
+        
+        (
+            DecryptedText1
+        ) = streamlit_webfiles.rbmrsa_compiled_main.decryption(final_encoded_messages1, d1, N1)
+        
+        
         st.write("Encrypted Message")
         st.text_area(
             "Encrypted Message of RBMRSA",
@@ -87,7 +133,8 @@ if selected == "RBMRSA vs Modified RBMRSA":
             disabled=True,
             label_visibility="collapsed",
         )
-
+        print(enc_elapsedTime1)
+        print(dec_elapsedTime1)
         st.divider()
 
         st.write("Encryption Time of RBMRSA")
