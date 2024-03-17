@@ -9,8 +9,6 @@ import random as random
 import re
 import base64
 
-# from streamlit import message
-
 
 def compute_bit(bit_input):
     bits = math.floor(bit_input / 4)
@@ -391,8 +389,8 @@ def format_destuff(final_encoded_messages):
     return decoded_messages
 
 
-def main(message):
-    bits = 2048
+def main(input):
+    bits = 1024
     bit_input = bits
     p, q, r, s = generating_keys(bits)
     N, PHI, e = computation_keys(p, q, r, s)
@@ -400,7 +398,7 @@ def main(message):
     y, x = gcd_checker(e, PHI)
     d = generating_d(x, y, e, PHI)
 
-    input = message
+    input = input
     plain_text = input
     enc_st = time.time()
 
@@ -446,50 +444,6 @@ def main(message):
     dec_elapsedTime = dec_et - dec_st
 
     # printing
-    print("\n\x1b[36m\x1b[1mGenerated Random Prime keys: \x1b[0m")
-    print("Random n-bit Prime (p): ", p)
-    print("Random n-bit Prime (q): ", q)
-    print("Random n-bit Prime (r): ", r)
-    print("Random n-bit Prime (s): ", s)
-    print(
-        "============================================================================================================================================="
-    )
-
-    # Computes the whole bit-length (N)
-    print("\n\x1b[36m\x1b[1mN = p*q*r*s =\x1b[0m", N)
-
-    # Computes for the Totient of N
-    print("\n\x1b[36m\x1b[1mPHI = (p-1)(q-1)(r-1)(s-1) =\x1b[0m", PHI)
-
-    # Public key (e)
-    print("\n\x1b[36m\x1b[1me =\x1b[0m", e)
-
-    print("\x1b[36m\x1b[1md =\x1b[0m", d)
-
-    print("\n\x1b[1mRSA Message: \x1b[0m", plain_text)
-
-    print("\x1b[1m\x1b[31mRSA Cipher (c = M^e mod N): \x1b[0m", CipherText)
-
-    print("\x1b[36m\x1b[1mBinary Text:\x1b[0m", BinaryText)
-
-    print("====== bit stuffing ======")
-    print("\n\x1b[36m\x1b[1mbit X:\x1b[0m", bitX)
-    print("\n\x1b[36m\x1b[1mbit Y:\x1b[0m", bitY)
-    print("\n\x1b[36m\x1b[1mbit Z:\x1b[0m", bitZ)
-
-    print("\n\x1b[36m\x1b[1mEncoded Messages: \x1b[0m", final_encoded_messages)
-
-    print("====== de stuffing ======")
-    print("\n\x1b[36m\x1b[1mDestuff bit Z :\x1b[0m", desZ)
-    print("\n\x1b[36m\x1b[1mDestuff bit Y :\x1b[0m", desY)
-    print("\n\x1b[36m\x1b[1mDestuff bit X :\x1b[0m", desX)
-
-    print("\x1b[36m\x1b[1m\nBinary Decrypted CipherText:\x1b[0m", CipherText)
-
-    # Output
-    print(
-        "\x1b[32m\x1b[1mResult: ==============================================================\x1b[0m"
-    )
 
     print("\nKey Length: ", bit_input)
     print("Version: TRY's Version")
@@ -499,4 +453,17 @@ def main(message):
     print("\x1b[32m\n\nDecrypted Message:\x1b[1m " + DecryptedText, "\x1b[0m")
     print("\n\n")
 
-    # return input, final_encoded_messages, enc_elapsedTime, dec_elapsedTime
+    return (
+        p,
+        q,
+        r,
+        s,
+        N,
+        PHI,
+        e,
+        d,
+        final_encoded_messages,
+        DecryptedText,
+        enc_elapsedTime,
+        dec_elapsedTime,
+    )
