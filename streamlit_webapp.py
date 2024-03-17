@@ -26,29 +26,18 @@ selected = option_menu(
     },
 )
 
+# input, bitstuffed, encTime, decTime = try_compiled_main.main(input)
+
 if selected == "RBMRSA vs Modified RBMRSA":
     form = st.form(key="msg_form", border=False)
     form.header("Plaintext Message")
     message = form.text_area(
         "Plaintext Message of RBMRSA", height=150, label_visibility="collapsed"
     )
-    m = st.markdown(
-        """
-        <style>
-        div.stButton > button:first-child {
-            background-color: #4c70ad;
-            color:#ffffff;
-        }
-        div.stButton > button:hover {
-            background-color: #698bc3;
-            border-color: #4c70ad;
-            color:#ffffff;
-    }
-        </style>""",
-        unsafe_allow_html=True,
+
+    submit_button = form.form_submit_button(
+        label="Submit", on_click=try_compiled_main.main(message)
     )
-    submit_button = form.form_submit_button(label="Submit")
-    try_compiled_main.try_2048(message)
 
     st.divider()
 
@@ -101,6 +90,7 @@ if selected == "RBMRSA vs Modified RBMRSA":
             height=100,
             disabled=True,
             label_visibility="collapsed",
+            value=message,
         )
 
         st.write("Decrypted Message")
@@ -128,7 +118,7 @@ if selected == "Simulation Details":
 
         st.text_input(
             "Encryption Time of RBMRSA",
-            value=exec_time,
+            value="ms",
             disabled=True,
             label_visibility="collapsed",
         )
@@ -136,7 +126,7 @@ if selected == "Simulation Details":
         st.write("Decryption Time of RBMRSA")
         st.text_input(
             "Decryption Time of RBMRSA",
-            value=exec_time,
+            value="ms",
             disabled=True,
             label_visibility="collapsed",
         )
@@ -211,7 +201,7 @@ if selected == "Simulation Details":
         st.write("Encryption Time of Modified RBMRSA")
         st.text_input(
             "Encryption Time of Modified RBMRSA",
-            value=exec_time,
+            value="ms",
             disabled=True,
             label_visibility="collapsed",
         )
@@ -219,7 +209,7 @@ if selected == "Simulation Details":
         st.write("Decryption Time of Modified RBMRSA")
         st.text_input(
             "Decryption Time of Modified RBMRSA",
-            value=exec_time,
+            value="ms",
             disabled=True,
             label_visibility="collapsed",
         )
@@ -301,7 +291,7 @@ if selected == "Simulation Details":
         st.write("Encryption Time of Modified RBMRSA")
         st.text_input(
             "Encryption Time of Modified RBMRSA (2048-bit)",
-            value=(try_compiled_main.enc_elapsedTime * 1000) + "ms",
+            value="ms",
             disabled=True,
             label_visibility="collapsed",
         )
@@ -309,7 +299,7 @@ if selected == "Simulation Details":
         st.write("Decryption Time of Modified RBMRSA")
         st.text_input(
             "Decryption Time of Modified RBMRSA (2048-bit)",
-            value=(try_compiled_main.dec_elapsedTime * 1000) + "ms",
+            value="ms",
             disabled=True,
             label_visibility="collapsed",
         )
