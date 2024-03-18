@@ -11,28 +11,54 @@ import streamlit_webfiles.rbmrsa_compiled_main
 import streamlit_webfiles.try_compiled_1024
 import streamlit_webfiles.try_compiled_2048
 
-st.set_page_config(page_title="TRY-RBMRSA", page_icon=":bird:", layout="wide")
-
-selected = option_menu(
-    menu_title=None,
-    options=[
-        "RBMRSA vs Modified RBMRSA",
-        "Test Data Results",
-        "About",
-    ],
-    default_index=0,
-    icons=[":large_green_circle:", ":page_facing_up:", ":bar_chart:", ":bird:"],
-    orientation="horizontal",
-    styles={
-        "container": {"background-color": "#F0F2F6"},
-        "nav-link-selected": {"background-color": "#4c70ad"},
-    },
+st.set_page_config(
+    page_title="TRY-RBMRSA",
+    page_icon=":bird:",
+    layout="wide",
+    initial_sidebar_state="expanded",
 )
 
-if selected == "RBMRSA vs Modified RBMRSA":
+side = st.markdown(
+    f"""
+        <style>
+            .sidebar .sidebar-content {{
+                width: 30%;
+            }}
+        </style>
+    """,
+    unsafe_allow_html=True,
+)
+with st.sidebar:
+    selected = option_menu(
+        menu_title="RBMRSA vs Modified RBMRSA",
+        options=[
+            "RBMRSA (1024-bit)",
+            "Modified RBMRSA (1024-bit)",
+            "Modified RBMRSA (2048-bit)",
+            "Test Data Results",
+            "About",
+        ],
+        orientation="vertical",
+        menu_icon="cpu-fill",
+        default_index=0,
+        icons=[
+            "1-circle-fill",
+            "2-circle-fill",
+            "3-circle-fill",
+            "bar-chart-fill",
+            "person-fill",
+        ],
+        styles={
+            "container": {"background-color": "#F0F2F6"},
+            "nav-link-selected": {"background-color": "#4c70ad"},
+        },
+    )
 
+if selected == "RBMRSA (1024-bit)":
+
+    st.header(":red_circle: RBMRSA Simulation (1024-bit)")
     with st.form("plaintext_msg", border=False):
-        st.header("Plaintext Message")
+        st.subheader("Plaintext Message")
         message = st.text_area(
             "Plaintext Message of RBMRSA",
             height=150,
@@ -40,8 +66,6 @@ if selected == "RBMRSA vs Modified RBMRSA":
         )
 
         def pass_message():
-            streamlit_webfiles.try_compiled_2048.main(message)
-            streamlit_webfiles.try_compiled_1024.main(message)
             streamlit_webfiles.rbmrsa_compiled_main.main(message)
 
         submit_button = st.form_submit_button(
@@ -51,25 +75,23 @@ if selected == "RBMRSA vs Modified RBMRSA":
 
     st.divider()
 
-    rbmrsa, mrbmrsa, mrbmrsa_2048 = st.columns(3, gap="large")
+    col1, col2 = st.columns(2, gap="large")
 
-    with rbmrsa:
-        st.subheader(":red_circle: RBMRSA Simulation")
-        st.caption("1024-bit key length")
-        (
-            p1,
-            q1,
-            r1,
-            N1,
-            PHI1,
-            e1,
-            d1,
-            final_encoded_messages1,
-            DecryptedText1,
-            enc_elapsedTime1,
-            dec_elapsedTime1,
-        ) = rbmrsa1024(message)
+    (
+        p1,
+        q1,
+        r1,
+        N1,
+        PHI1,
+        e1,
+        d1,
+        final_encoded_messages1,
+        DecryptedText1,
+        enc_elapsedTime1,
+        dec_elapsedTime1,
+    ) = rbmrsa1024(message)
 
+    with col1:
         st.write("Encrypted Message")
         st.text_area(
             "Encrypted Message of RBMRSA",
@@ -79,21 +101,20 @@ if selected == "RBMRSA vs Modified RBMRSA":
             label_visibility="collapsed",
         )
 
+        st.write("Encryption Time of RBMRSA")
+        st.text_input(
+            "Encryption Time of RBMRSA",
+            value=str(enc_elapsedTime1 * 1000) + " ms",
+            disabled=True,
+            label_visibility="collapsed",
+        )
+
+    with col2:
         st.write("Decrypted Message")
         st.text_area(
             "Decrypted Message of RBMRSA",
             value=DecryptedText1,
             height=100,
-            disabled=True,
-            label_visibility="collapsed",
-        )
-
-        st.divider()
-
-        st.write("Encryption Time of RBMRSA")
-        st.text_input(
-            "Encryption Time of RBMRSA",
-            value=str(enc_elapsedTime1 * 1000) + " ms",
             disabled=True,
             label_visibility="collapsed",
         )
@@ -106,82 +127,101 @@ if selected == "RBMRSA vs Modified RBMRSA":
             label_visibility="collapsed",
         )
 
-        st.divider()
+    st.divider()
+    with st.expander("3 Prime Numbers"):
 
-        with st.expander("3 Prime Numbers"):
+        st.text_area(
+            "Prime number p of RBMRSA",
+            height=100,
+            disabled=True,
+            value=p1,
+        )
+        st.text_area(
+            "Prime number q of RBMRSA",
+            height=100,
+            disabled=True,
+            value=q1,
+        )
 
-            st.text_area(
-                "Prime number p of RBMRSA",
-                height=100,
-                disabled=True,
-                value=p1,
-            )
-            st.text_area(
-                "Prime number q of RBMRSA",
-                height=100,
-                disabled=True,
-                value=q1,
-            )
+        st.text_area(
+            "Prime number r of RBMRSA",
+            height=100,
+            disabled=True,
+            value=r1,
+        )
 
-            st.text_area(
-                "Prime number r of RBMRSA",
-                height=100,
-                disabled=True,
-                value=r1,
-            )
+    with st.expander("N of RBMRSA"):
+        st.text_area(
+            "N of RBMRSA",
+            height=100,
+            disabled=True,
+            label_visibility="collapsed",
+            value=N1,
+        )
 
-        with st.expander("N of RBMRSA"):
-            st.text_area(
-                "N of RBMRSA",
-                height=100,
-                disabled=True,
-                label_visibility="collapsed",
-                value=N1,
-            )
+    with st.expander("PHI of RBMRSA"):
+        st.text_area(
+            "PHI of RBMRSA",
+            height=100,
+            disabled=True,
+            label_visibility="collapsed",
+            value=PHI1,
+        )
 
-        with st.expander("PHI of RBMRSA"):
-            st.text_area(
-                "PHI of RBMRSA",
-                height=100,
-                disabled=True,
-                label_visibility="collapsed",
-                value=PHI1,
-            )
+    with st.expander("Keys of RBMRSA"):
+        st.text_area(
+            "Public key e of RBMRSA",
+            height=100,
+            disabled=True,
+            value=e1,
+        )
 
-        with st.expander("Keys of RBMRSA"):
-            st.text_area(
-                "Public key e of RBMRSA",
-                height=100,
-                disabled=True,
-                value=e1,
-            )
+        st.text_area(
+            "Private key d of RBMRSA",
+            height=100,
+            disabled=True,
+            value=d1,
+        )
 
-            st.text_area(
-                "Private key d of RBMRSA",
-                height=100,
-                disabled=True,
-                value=d1,
-            )
+if selected == "Modified RBMRSA (1024-bit)":
+    st.header(":large_blue_circle: Modified RBMRSA Simulation (1024-bit)")
 
-    with mrbmrsa:
-        st.subheader(":large_blue_circle: Modified RBMRSA Simulation")
-        st.caption("1024-bit key length")
+    with st.form("plaintext_msg", border=False):
+        st.subheader("Plaintext Message")
+        message = st.text_area(
+            "Plaintext Message of Modified RBMRSA (1024-bit)",
+            height=150,
+            label_visibility="collapsed",
+        )
 
-        (
-            p2,
-            q2,
-            r2,
-            s2,
-            N2,
-            PHI2,
-            e2,
-            d2,
-            final_encoded_messages2,
-            DecryptedText2,
-            enc_elapsedTime2,
-            dec_elapsedTime2,
-        ) = try1024(message)
+        def pass_message():
+            streamlit_webfiles.try_compiled_1024.main(message)
 
+        submit_button = st.form_submit_button(
+            label="Submit",
+            on_click=pass_message,
+        )
+
+    st.divider()
+
+    col1, col2 = st.columns(2, gap="large")
+
+    (
+        p2,
+        q2,
+        r2,
+        s2,
+        N2,
+        PHI2,
+        e2,
+        d2,
+        final_encoded_messages2,
+        DecryptedText2,
+        enc_elapsedTime2,
+        dec_elapsedTime2,
+    ) = try1024(message)
+
+    with col1:
         st.write("Encrypted Message")
         st.text_area(
             "Encrypted Message of Modified RBMRSA",
@@ -191,21 +231,20 @@ if selected == "RBMRSA vs Modified RBMRSA":
             label_visibility="collapsed",
         )
 
+        st.write("Encryption Time of Modified RBMRSA")
+        st.text_input(
+            "Encryption Time of Modified RBMRSA",
+            value=str(enc_elapsedTime2 * 1000) + " ms",
+            disabled=True,
+            label_visibility="collapsed",
+        )
+
+    with col2:
         st.write("Decrypted Message")
         st.text_area(
             "Decrypted Message of Modified RBMRSA",
             value=DecryptedText2,
             height=100,
-            disabled=True,
-            label_visibility="collapsed",
-        )
-
-        st.divider()
-
-        st.write("Encryption Time of Modified RBMRSA")
-        st.text_input(
-            "Encryption Time of Modified RBMRSA",
-            value=str(enc_elapsedTime2 * 1000) + " ms",
             disabled=True,
             label_visibility="collapsed",
         )
@@ -218,89 +257,107 @@ if selected == "RBMRSA vs Modified RBMRSA":
             label_visibility="collapsed",
         )
 
-        st.divider()
+    st.divider()
+    with st.expander("4 Prime Numbers"):
+        st.text_area(
+            "Prime number p of Modified RBMRSA",
+            height=100,
+            disabled=True,
+            value=p2,
+        )
 
-        with st.expander("4 Prime Numbers"):
-            st.text_area(
-                "Prime number p of Modified RBMRSA",
-                height=100,
-                disabled=True,
-                value=p2,
-            )
+        st.text_area(
+            "Prime number q of Modified RBMRSA",
+            height=100,
+            disabled=True,
+            value=q2,
+        )
 
-            st.text_area(
-                "Prime number q of Modified RBMRSA",
-                height=100,
-                disabled=True,
-                value=q2,
-            )
+        st.text_area(
+            "Prime number r of Modified RBMRSA",
+            height=100,
+            disabled=True,
+            value=r2,
+        )
 
-            st.text_area(
-                "Prime number r of Modified RBMRSA",
-                height=100,
-                disabled=True,
-                value=r2,
-            )
+        st.text_area(
+            "Prime number s of Modified RBMRSA",
+            height=100,
+            disabled=True,
+            value=s2,
+        )
 
-            st.text_area(
-                "Prime number s of Modified RBMRSA",
-                height=100,
-                disabled=True,
-                value=s2,
-            )
+    with st.expander("N of Modified RBMRSA"):
+        st.text_area(
+            "N of Modified RBMRSA",
+            height=100,
+            disabled=True,
+            label_visibility="collapsed",
+            value=N2,
+        )
 
-        with st.expander("N of Modified RBMRSA"):
-            st.text_area(
-                "N of Modified RBMRSA",
-                height=100,
-                disabled=True,
-                label_visibility="collapsed",
-                value=N2,
-            )
+    with st.expander("PHI of Modified RBMRSA"):
+        st.text_area(
+            "PHI of Modified RBMRSA",
+            height=100,
+            disabled=True,
+            label_visibility="collapsed",
+            value=PHI2,
+        )
 
-        with st.expander("PHI of Modified RBMRSA"):
-            st.text_area(
-                "PHI of Modified RBMRSA",
-                height=100,
-                disabled=True,
-                label_visibility="collapsed",
-                value=PHI2,
-            )
+    with st.expander("Keys of Modified RBMRSA"):
+        st.text_area(
+            "Public key e of Modified RBMRSA",
+            height=100,
+            disabled=True,
+            value=e2,
+        )
 
-        with st.expander("Keys of Modified RBMRSA"):
-            st.text_area(
-                "Public key e of Modified RBMRSA",
-                height=100,
-                disabled=True,
-                value=e2,
-            )
+        st.text_area(
+            "Private key d of Modified RBMRSA",
+            height=100,
+            disabled=True,
+            value=d2,
+        )
 
-            st.text_area(
-                "Private key d of Modified RBMRSA",
-                height=100,
-                disabled=True,
-                value=d2,
-            )
+if selected == "Modified RBMRSA (2048-bit)":
+    st.header(":large_purple_circle: Modified RBMRSA Simulation (2048-bit)")
+    with st.form("plaintext_msg", border=False):
+        st.subheader("Plaintext Message")
+        message = st.text_area(
+            "Plaintext Message of Modified RBMRSA (2048-bit)",
+            height=150,
+            label_visibility="collapsed",
+        )
 
-    with mrbmrsa_2048:
-        st.subheader(":large_purple_circle: Modified RBMRSA Simulation")
-        st.caption("2048-bit key length")
+        def pass_message():
+            streamlit_webfiles.try_compiled_2048.main(message)
 
-        (
-            p3,
-            q3,
-            r3,
-            s3,
-            N3,
-            PHI3,
-            e3,
-            d3,
-            final_encoded_messages3,
-            DecryptedText3,
-            enc_elapsedTime3,
-            dec_elapsedTime3,
-        ) = try2048(message)
+        submit_button = st.form_submit_button(
+            label="Submit",
+            on_click=pass_message,
+        )
 
+    st.divider()
+
+    col1, col2 = st.columns(2, gap="large")
+
+    (
+        p3,
+        q3,
+        r3,
+        s3,
+        N3,
+        PHI3,
+        e3,
+        d3,
+        final_encoded_messages3,
+        DecryptedText3,
+        enc_elapsedTime3,
+        dec_elapsedTime3,
+    ) = try2048(message)
+
+    with col1:
         st.write("Encrypted Message")
         st.text_area(
             "Encrypted Message of Modified RBMRSA (2048)",
@@ -310,6 +367,15 @@ if selected == "RBMRSA vs Modified RBMRSA":
             value=final_encoded_messages3,
         )
 
+        st.write("Encryption Time of Modified RBMRSA")
+        st.text_input(
+            "Encryption Time of Modified RBMRSA (2048-bit)",
+            value=str(enc_elapsedTime3 * 1000) + " ms",
+            disabled=True,
+            label_visibility="collapsed",
+        )
+
+    with col2:
         st.write("Decrypted Message")
         st.text_area(
             "Decrypted Message of Modified RBMRSA (2048)",
@@ -317,16 +383,6 @@ if selected == "RBMRSA vs Modified RBMRSA":
             disabled=True,
             label_visibility="collapsed",
             value=DecryptedText3,
-        )
-
-        st.divider()
-
-        st.write("Encryption Time of Modified RBMRSA")
-        st.text_input(
-            "Encryption Time of Modified RBMRSA (2048-bit)",
-            value=str(enc_elapsedTime3 * 1000) + " ms",
-            disabled=True,
-            label_visibility="collapsed",
         )
 
         st.write("Decryption Time of Modified RBMRSA")
@@ -337,69 +393,69 @@ if selected == "RBMRSA vs Modified RBMRSA":
             label_visibility="collapsed",
         )
 
-        st.divider()
+    st.divider()
 
-        with st.expander("4 Prime Numbers"):
-            st.text_area(
-                "Prime number p of Modified RBMRSA (2048-bit)",
-                height=100,
-                disabled=True,
-                value=p3,
-            )
+    with st.expander("4 Prime Numbers"):
+        st.text_area(
+            "Prime number p of Modified RBMRSA (2048-bit)",
+            height=100,
+            disabled=True,
+            value=p3,
+        )
 
-            st.text_area(
-                "Prime number q of Modified RBMRSA (2048-bit)",
-                height=100,
-                disabled=True,
-                value=q3,
-            )
+        st.text_area(
+            "Prime number q of Modified RBMRSA (2048-bit)",
+            height=100,
+            disabled=True,
+            value=q3,
+        )
 
-            st.text_area(
-                "Prime number r of Modified RBMRSA (2048-bit)",
-                height=100,
-                disabled=True,
-                value=r3,
-            )
+        st.text_area(
+            "Prime number r of Modified RBMRSA (2048-bit)",
+            height=100,
+            disabled=True,
+            value=r3,
+        )
 
-            st.text_area(
-                "Prime number s of Modified RBMRSA (2048-bit)",
-                height=100,
-                disabled=True,
-                value=s3,
-            )
+        st.text_area(
+            "Prime number s of Modified RBMRSA (2048-bit)",
+            height=100,
+            disabled=True,
+            value=s3,
+        )
 
-        with st.expander("N of Modified RBMRSA"):
-            st.text_area(
-                "N of Modified RBMRSA (2048-bit)",
-                height=100,
-                disabled=True,
-                label_visibility="collapsed",
-                value=N3,
-            )
+    with st.expander("N of Modified RBMRSA"):
+        st.text_area(
+            "N of Modified RBMRSA (2048-bit)",
+            height=100,
+            disabled=True,
+            label_visibility="collapsed",
+            value=N3,
+        )
 
-        with st.expander("PHI of Modified RBMRSA"):
-            st.text_area(
-                "PHI of Modified RBMRSA (2048-bit)",
-                height=100,
-                disabled=True,
-                label_visibility="collapsed",
-                value=PHI3,
-            )
+    with st.expander("PHI of Modified RBMRSA"):
+        st.text_area(
+            "PHI of Modified RBMRSA (2048-bit)",
+            height=100,
+            disabled=True,
+            label_visibility="collapsed",
+            value=PHI3,
+        )
 
-        with st.expander("Keys of Modified RBMRSA"):
-            st.text_area(
-                "Public key e of Modified RBMRSA (2048-bit)",
-                height=100,
-                disabled=True,
-                value=e3,
-            )
+    with st.expander("Keys of Modified RBMRSA"):
+        st.text_area(
+            "Public key e of Modified RBMRSA (2048-bit)",
+            height=100,
+            disabled=True,
+            value=e3,
+        )
 
-            st.text_area(
-                "Private key d of Modified RBMRSA (2048-bit)",
-                height=100,
-                disabled=True,
-                value=d3,
-            )
+        st.text_area(
+            "Private key d of Modified RBMRSA (2048-bit)",
+            height=100,
+            disabled=True,
+            value=d3,
+        )
 
 if selected == "Test Data Results":
     st.header("Results of the Comparison of RBMRSA and Modified RBMRSA Algorithms")

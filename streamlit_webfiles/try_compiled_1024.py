@@ -450,8 +450,6 @@ def main(input):
     print("Input: ", input)
     print("Encryption Elapsed Time:", (enc_elapsedTime * 1000), "milliseconds")
     print("Decryption Elapsed Time:", (dec_elapsedTime * 1000), "milliseconds")
-    print("\x1b[32m\n\nDecrypted Message:\x1b[1m " + DecryptedText, "\x1b[0m")
-    print("\n\n")
 
     return (
         p,
