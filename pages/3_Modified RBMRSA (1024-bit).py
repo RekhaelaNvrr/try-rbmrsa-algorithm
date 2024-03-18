@@ -22,22 +22,25 @@ st.header(":large_blue_circle: Modified RBMRSA Simulation (1024-bit)")
 
 with st.form("plaintext_msg", border=False):
     st.subheader("Plaintext Message")
-    message = st.text_area(
+    message2 = st.text_area(
         "Plaintext Message of Modified RBMRSA (1024-bit)",
         height=150,
         label_visibility="collapsed",
     )
 
     def click_button():
-        st.session_state.clicked2 = True
+        if len(message2) == 0 or message2 == "":
+            st.session_state.clicked2 = False
+        else:
+            st.session_state.clicked2 = True
 
     submit_button = st.form_submit_button(
         label="Submit",
         on_click=click_button,
     )
 
-    if st.session_state.clicked2:
-        streamlit_webfiles.try_compiled_1024.main(message)
+    if st.session_state.clicked2 == True:
+        streamlit_webfiles.try_compiled_1024.main(message2)
 
 st.divider()
 
@@ -56,7 +59,7 @@ col1, col2 = st.columns(2, gap="large")
     DecryptedText2,
     enc_elapsedTime2,
     dec_elapsedTime2,
-) = try1024(message)
+) = try1024(message2)
 
 with col1:
     st.write("Encrypted Message")

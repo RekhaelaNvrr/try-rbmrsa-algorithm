@@ -14,6 +14,7 @@ show_pages_from_config()
 
 
 st.header("Results of the Comparison of RBMRSA and Modified RBMRSA Algorithms")
+st.caption("Results are based on initial simulation in terminal.")
 
 total_results = pd.DataFrame(
     {

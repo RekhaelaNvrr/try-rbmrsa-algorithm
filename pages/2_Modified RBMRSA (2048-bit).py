@@ -21,14 +21,17 @@ if "clicked3" not in st.session_state:
 st.header(":large_purple_circle: Modified RBMRSA Simulation (2048-bit)")
 with st.form("plaintext_msg", border=False):
     st.subheader("Plaintext Message")
-    message = st.text_area(
+    message3 = st.text_area(
         "Plaintext Message of Modified RBMRSA (2048-bit)",
         height=150,
         label_visibility="collapsed",
     )
 
     def click_button():
-        st.session_state.clicked3 = True
+        if len(message3) != 0 or message3 == "":
+            st.session_state.clicked3 = True
+        else:
+            st.session_state.clicked3 = False
 
     submit_button = st.form_submit_button(
         label="Submit",
@@ -36,7 +39,7 @@ with st.form("plaintext_msg", border=False):
     )
 
     if st.session_state.clicked3:
-        streamlit_webfiles.try_compiled_2048.main(message)
+        streamlit_webfiles.try_compiled_2048.main(message3)
 
 st.divider()
 
@@ -55,7 +58,7 @@ col1, col2 = st.columns(2, gap="large")
     DecryptedText3,
     enc_elapsedTime3,
     dec_elapsedTime3,
-) = try2048(message)
+) = try2048(message3)
 
 with col1:
     st.write("Encrypted Message")
