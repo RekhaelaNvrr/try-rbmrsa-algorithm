@@ -1,0 +1,24 @@
+[[pages]]
+path = "0_Home.py"
+name = "Home"
+icon = ":bird:"
+
+[[pages]]
+path = "pages/1_Test Data Results.py"
+name = "Test Data Results"
+icon = ":bar_chart:"
+
+[[pages]]
+path = "pages/2_Modified RBMRSA (2048-bit).py"
+name = "Modified RBMRSA (2048-bit)"
+icon = ":red_circle:"
+
+[[pages]]
+path = "pages/3_Modified RBMRSA (1024-bit).py"
+name = "Modified RBMRSA (1024-bit)"
+icon = ":large_blue_circle:"
+
+[[pages]]
+path = "pages/4_RBMRSA (1024-bit).py"
+name = "RBMRSA (1024-bit)"
+icon = ":large_purple_circle:"
