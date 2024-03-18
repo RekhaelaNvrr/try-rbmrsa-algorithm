@@ -606,7 +606,7 @@ if selected == "About":
             """
             Yuanah Marie Cruz is a Computer Science student from Pamantasan ng Lungsod ng Maynila.
 
-            She is currently a Software Engineer at Accenture Philippines. She has a passion for data security and cryptography and is currently pursuing a career in the field of cybersecurity.
+            A senior at Pamantasan ng Lungsod ng Maynila taking up BS Computer Science. Affiliated with Google Developer Student Clubs - PLM as Chief Creative Officer. Field of interest are UI/UX Design, Data Analytics, Cybersecurity, and Automations.
             """
         )
 
@@ -644,7 +644,7 @@ if selected == "About":
             """
             Rekhaela Vlain Navarro is a Computer Science student from Pamantasan ng Lungsod ng Maynila.
 
-            She is currently a Software Engineer at Accenture Philippines. She has a passion for data security and cryptography and is currently pursuing a career in the field of cybersecurity.
+            A senior at Pamantasan ng Lungsod ng Maynila taking up BS Computer Science. Affiliated with Google Developer Student Clubs - PLM as Promotions Lead. Field of interest are UI/UX Design, Data Analytics, Cybersecurity, and Automations.
             """
         )
 
@@ -682,6 +682,6 @@ if selected == "About":
             """
             Althea Coleen Salazar is a Computer Science student from Pamantasan ng Lungsod ng Maynila.
 
-            She is currently a Software Engineer at Accenture Philippines. She has a passion for data security and cryptography and is currently pursuing a career in the field of cybersecurity.
+            A senior at Pamantasan ng Lungsod ng Maynila taking up BS Computer Science. Affiliated with Google Developer Student Clubs - PLM as Documentation Lead. Field of interest are Data Science and Full Stack Web Development.
             """
         )
