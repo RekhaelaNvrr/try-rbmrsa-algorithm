@@ -34,7 +34,7 @@ bitX = bitstuffX(Original_BinaryText)
 bitY = bitstuffY(bitX)
 bitZ = bitstuffZ(bitY)
 
-Original_BinaryText = bitZ
+Original_BinaryText = bitZ 
 
 #Modified text -----------------------------------------
 #Algorithm keys -------

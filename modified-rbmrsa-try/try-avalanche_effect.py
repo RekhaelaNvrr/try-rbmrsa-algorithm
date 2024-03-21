@@ -9,7 +9,7 @@ from try_decryption_crt import crt_equations, modInv_Computation, four_parts
 
 print("\n ----------")
 print("MODIFIED RBMRSA Avalanche Checker Version:")
-print("\n Key bit-length: 1024")
+print("\n Key bit-length: 2048")
 original_plaintext = input("\tEnter a phrase/text: ")
 modified_plaintext = input("\tChange 1 part of the text/phrase: ")
 
