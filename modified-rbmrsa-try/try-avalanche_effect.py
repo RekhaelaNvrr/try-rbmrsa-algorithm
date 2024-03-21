@@ -13,7 +13,7 @@ print("\n Key bit-length: 2048")
 original_plaintext = input("\tEnter a phrase/text: ")
 modified_plaintext = input("\tChange 1 part of the text/phrase: ")
 
-#Algorithm keys -------
+# Algorithm keys -------
 bit_input = 2048
 bits = compute_bit(bit_input)
 
@@ -22,7 +22,7 @@ p, q, r, s = generating_keys(bits)
 N, PHI, e = computation_keys(p, q, r, s)
 
 y, x = gcd_checker(e, PHI)
-d = generating_d (x, y, e, PHI)
+d = generating_d(x, y, e, PHI)
 
 # Encryption of text message
 original_ciphertext = [pow(ord(c), e, N) for c in original_plaintext]
@@ -37,8 +37,8 @@ bitZ = bitstuffZ(bitY)
 
 Original_BinaryText = bitZ
 
-#Modified text -----------------------------------------
-#Algorithm keys -------
+# Modified text -----------------------------------------
+# Algorithm keys -------
 bits = compute_bit(bit_input)
 
 p, q, r, s = generating_keys(bits)
@@ -46,7 +46,7 @@ p, q, r, s = generating_keys(bits)
 N, PHI, e = computation_keys(p, q, r, s)
 
 y, x = gcd_checker(e, PHI)
-d = generating_d (x, y, e, PHI)
+d = generating_d(x, y, e, PHI)
 
 # Encryption of text message
 modified_ciphertext = [pow(ord(c), e, N) for c in modified_plaintext]
@@ -61,30 +61,34 @@ bitZ = bitstuffZ(bitY)
 
 Modified_BinaryText = bitZ
 
+
 # Calculating Avalanche Effect (Bitwise XOR)
 def compute_avalanche_effect(Original_BinaryText, Modified_BinaryText):
     total_bits = 0
     changed_bits = 0
-    
+
     # Iterate through each pair of original and modified ciphertexts
     for original, modified in zip(Original_BinaryText, Modified_BinaryText):
         # Convert ciphertexts to binary strings
         original_int = int(original, 2)
         modified_int = int(modified, 2)
-        
+
         # Count the total number of bits
         total_bits += len(original)
-        
+
         # Count the number of changed bits
-        changed_bits += bin(original_int ^ modified_int).count('1')
-                
+        changed_bits += bin(original_int ^ modified_int).count("1")
+
     # Calculate the percentage of changed bits
     avalanche_percentage = (changed_bits / total_bits) * 100
     return avalanche_percentage, changed_bits, total_bits
 
-avalanche_percentage, changed_bits, total_bits = compute_avalanche_effect(Original_BinaryText, Modified_BinaryText)
-print("\nchanged bits:",  changed_bits)
-print("total bits:",  total_bits)
+
+avalanche_percentage, changed_bits, total_bits = compute_avalanche_effect(
+    Original_BinaryText, Modified_BinaryText
+)
+print("\nchanged bits:", changed_bits)
+print("total bits:", total_bits)
 
 print("\nAvalanche Effect: {:.2f}%".format(avalanche_percentage))
 print("---- end ----\n")
