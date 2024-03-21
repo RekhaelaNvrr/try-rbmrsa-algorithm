@@ -61,7 +61,7 @@ print("\n\x1b[36m\x1b[1mPHI = (p-1)(q-1)(r-1)(s-1) =\x1b[0m", PHI)
 print("\n\x1b[36m\x1b[1me =\x1b[0m", e)
 
 y, x = gcd_checker(e, PHI)
-d = generating_d (x, y, e, PHI)
+d = generating_d(x, y, e, PHI)
 
 gen_time_end = time.time()
 gen_time = gen_time_end - gen_time_st
@@ -149,8 +149,10 @@ print("\x1b[36m\x1b[1m\nBinary Decrypted CipherText:\x1b[0m", CipherText)
 
 # Decryption process
 pInv, qInv, rInv, sInv = modInv_Computation(N, p, q, r, s)
-dp, dq, dr, ds = crt_equations(p, q , r, s, N, d)
-Decryption = four_parts (CipherText, p, q, r, s, N, pInv, qInv, rInv, sInv, dp, dq, dr, ds)
+dp, dq, dr, ds = crt_equations(p, q, r, s, N, d)
+Decryption = four_parts(
+    CipherText, p, q, r, s, N, pInv, qInv, rInv, sInv, dp, dq, dr, ds
+)
 print("\x1b[36m\x1b[1m\nRSA Decipher (c^d mod N):\x1b[0m", Decryption)
 DT = [chr(c) for c in Decryption]
 DecryptedText = "".join(DT)
